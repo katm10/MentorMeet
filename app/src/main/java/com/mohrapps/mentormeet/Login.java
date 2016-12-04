@@ -6,12 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
 
 public class Login extends AppCompatActivity {
 
@@ -29,25 +30,18 @@ public class Login extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private static ImageView[] dots = new ImageView[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.signUp);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.signUp);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-
+        dots[0]= (ImageView) findViewById(R.id.dot1);
+        dots[1]=(ImageView) findViewById(R.id.dot2);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,7 +93,16 @@ public class Login extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+            View rootView;
+            if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
+                rootView = inflater.inflate(R.layout.fragment_login, container, false);
+                dots[0].setImageDrawable(getResources().getDrawable(R.drawable.reg_button));
+                dots[1].setImageDrawable(getResources().getDrawable(R.drawable.button_transparent));
+            } else {
+                rootView = inflater.inflate(R.layout.fragment_login2, container, false);
+                dots[0].setImageDrawable(getResources().getDrawable(R.drawable.button_transparent));
+                dots[1].setImageDrawable(getResources().getDrawable(R.drawable.reg_button));
+            }
             return rootView;
         }
     }
@@ -124,20 +127,26 @@ public class Login extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
+
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Sign Up!";
+
+
                 case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
+                    return "Log In!";
+
             }
             return null;
         }
+
+
     }
+
+
 }

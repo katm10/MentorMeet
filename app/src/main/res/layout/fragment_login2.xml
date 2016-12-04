@@ -1,0 +1,56 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="layout.login">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <TextView
+            android:paddingTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/title_activity_login"
+            android:id="@+id/signInText"
+            android:textColor="@color/colorPrimary"
+            android:textSize="45dp"
+            android:paddingBottom="10dp"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:hint="@string/email"
+            android:id="@+id/enterKnownEmail" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:hint="@string/password"
+            android:id="@+id/enterKnownPass" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_activity_login"
+            android:id="@+id/button"
+            android:textSize="35sp"
+            android:padding="2dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorLightPrimary"
+            android:textColor="@color/colorPrimary"
+            android:textAllCaps="false"
+            style="@style/AppTheme" />
+    </LinearLayout>
+</FrameLayout>
