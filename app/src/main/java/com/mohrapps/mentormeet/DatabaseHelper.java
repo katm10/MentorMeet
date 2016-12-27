@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
         this.onCreate(db);
     }
-    
+
     public String searchPass(String username) {
         db = this.getReadableDatabase();
         String b = "not found";
@@ -60,6 +60,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return b;
+    }
+
+    public boolean searchUnames(String username) {
+        db = this.getReadableDatabase();
+        boolean isAUniqueUname = true;
+        if (db.isOpen()) {
+            String query = "SELECT "+COLUMN_UNAME+" FROM " + TABLE_NAME;
+            Cursor cursor = db.rawQuery(query, null);
+            //a is uname that cursor is on
+            String a;
+            if (cursor.moveToFirst()) {
+                do {
+                    a = cursor.getString(0);
+                    if (a.equals(username)) {
+                        isAUniqueUname = false;
+                        break;
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        return isAUniqueUname;
     }
 
     public String getAllInfo() {

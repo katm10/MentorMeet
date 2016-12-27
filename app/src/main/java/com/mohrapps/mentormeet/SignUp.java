@@ -55,23 +55,29 @@ public class SignUp extends AppCompatActivity {
         String nameStr = name.getText().toString();
         String emailStr = email.getText().toString();
 
-        if(!pass1Str.equals(pass2Str)){
+        if (!pass1Str.equals(pass2Str)) {
 
             //let user know passwords don't match
-            Toast passProb = Toast.makeText(SignUp.this, "pass1str ==" + pass1Str + " pass2str =="+ pass2Str, Toast.LENGTH_SHORT);
+            Toast passProb = Toast.makeText(SignUp.this, "pass1str ==" + pass1Str + " pass2str ==" + pass2Str, Toast.LENGTH_SHORT);
             passProb.show();
+       // } else if (!isValidEmailAddress(pass1Str)) {
+       //     Toast emailProb = Toast.makeText(SignUp.this, emailStr + " is not a valid email :(", Toast.LENGTH_SHORT);
+       //     emailProb.show();
         }
-        else
-        {
+        else if(!helper.searchUnames(usernameStr)){
+            Toast userProb = Toast.makeText(SignUp.this, usernameStr + " has already been used", Toast.LENGTH_SHORT);
+            userProb.show();
+        }
+        else {
             //make new contact
             Contact contact = new Contact();
             contact.setEmail(emailStr);
             contact.setName(nameStr);
             contact.setPass(pass1Str);
             contact.setUname(usernameStr);
-            if(mentor.isChecked()){
+            if (mentor.isChecked()) {
                 contact.setAMentor(1);
-            }else{
+            } else {
                 contact.setAMentor(0);
             }
             Toast signedUp = Toast.makeText(SignUp.this, "You have signed up! Woot woot!", Toast.LENGTH_SHORT);
@@ -79,4 +85,5 @@ public class SignUp extends AppCompatActivity {
             helper.insertContact(contact);
         }
     }
+
 }
