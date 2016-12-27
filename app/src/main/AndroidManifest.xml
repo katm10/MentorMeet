@@ -20,14 +20,17 @@
         </activity>
         <activity android:name=".Mentor" />
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignUp" />
+        <activity android:name=".databaseInfo"></activity>
     </application>
 
 </manifest>

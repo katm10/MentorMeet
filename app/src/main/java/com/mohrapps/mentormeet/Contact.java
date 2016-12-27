@@ -5,10 +5,11 @@ package com.mohrapps.mentormeet;
  */
 public class Contact {
     int id;
-    String name;
-    String email;
     String uname;
     String pass;
+    String name;
+    String email;
+    int isAMentor;
 
     public void setId(int id){
         this.id = id;
@@ -48,5 +49,13 @@ public class Contact {
 
     public String getUname(){
         return this.uname;
+    }
+
+    public void setAMentor(int isAMentor){
+        this.isAMentor = isAMentor;
+    }
+
+    public int getMentor(){
+        return isAMentor;
     }
 }

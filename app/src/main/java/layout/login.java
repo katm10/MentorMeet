@@ -65,7 +65,7 @@ public class login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login2, container, false);
+        return inflater.inflate(R.layout.login_page, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
