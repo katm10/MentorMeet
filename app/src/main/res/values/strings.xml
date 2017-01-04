@@ -28,4 +28,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="click_here_to_sign_in_if_you_already_have_an_account">Click here to sign in if you already have an account.</string>
+    <string name="toggle_this_if_you_are_a_mentor">Toggle this if you are a mentor.</string>
 </resources>

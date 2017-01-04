@@ -1,103 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:orientation="vertical" >
-    <TextView
-        android:paddingTop="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/signUpTitle"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:textSize="40sp"
-        android:id="@+id/signUpText"
-        android:textColorHighlight="#ffffff"
-        android:text="@string/signUpTitle"
-        android:layout_gravity="center_horizontal"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/username"
-        android:ems="10"
-        android:id="@+id/usernameEdit" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/name"
-        android:ems="10"
-        android:id="@+id/firstNameEdit"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textWebEmailAddress"
-        android:hint="@string/email"
-        android:ems="10"
-        android:id="@+id/emailEdit"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:hint="@string/password"
-        android:id="@+id/password"
-/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/reenter_password"
-        android:ems="10"
-        android:id="@+id/secondPassword"
-/>
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/are_you_a_mentor"
-        android:id="@+id/switch1"
-        android:ems="13"
-        android:textSize="18dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="18dp"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_gravity="center_horizontal"
-        android:textSize="35sp"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:background="@color/colorLightPrimary"
-        android:text="@string/sign_me_up"
-        android:onClick="onSignUpClick"
-        style="@style/AppTheme"
-        android:id="@+id/signUpButton" />
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorLightPrimary">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="center_horizontal"></LinearLayout>
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:background="@color/colorLightPrimary"
-        android:text="@string/click_here_to_sign_in_if_you_already_have_an_account"
-        android:id="@+id/goToLoginPage"
-        android:layout_gravity="center_horizontal" />
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
 
+        <ImageView android:src="@drawable/logo512512"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
 
-</LinearLayout>
+        <!--  Name Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="Name" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Email Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Email" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Password Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Password"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Signup Button -->
+        <EditText
+            android:id="@+id/input_password2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Retype Password"
+            android:layout_gravity="center_horizontal" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please toggle this if you are a mentor.      "
+            android:id="@+id/switch_mentor"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/grey"
+            />
+
+        <Button
+            android:id="@+id/btn_signup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Create Account"
+            android:background="@color/logoBlue"
+            android:textColor="@color/colorLightPrimary"
+            android:onClick="onSignUpClick"
+            />
+
+        <TextView android:id="@+id/link_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Already a member? Login"
+            android:gravity="center"
+            android:textSize="16dip"/>
+
+    </LinearLayout>
+</ScrollView>

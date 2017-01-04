@@ -2,38 +2,53 @@ package com.mohrapps.mentormeet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUp extends AppCompatActivity {
 
-    DatabaseHelper helper = new DatabaseHelper(this);
-    Button logIn;
-    EditText username;
-    EditText pass1;
-    EditText pass2;
-    EditText name;
-    EditText email;
-    Switch mentor;
-    Button signUp;
+    private TextView logIn;
+    private EditText pass1;
+   private EditText pass2;
+    private EditText name;
+    private EditText email;
+    private Switch mentor;
+    private Button signUp;
+    protected FirebaseAuth mAuth;
+    protected FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
 
-        logIn = (Button)findViewById(R.id.goToLoginPage);
-        username = (EditText)findViewById(R.id.usernameEdit);
-        pass1 = (EditText)findViewById(R.id.password);
-        pass2 = (EditText)findViewById(R.id.secondPassword);
-        name = (EditText)findViewById(R.id.firstNameEdit);
-        email = (EditText)findViewById(R.id.emailEdit);
-        mentor = (Switch)findViewById(R.id.switch1);
-        signUp = (Button)findViewById(R.id.signUpButton);
+        mAuth = FirebaseAuth.getInstance();
+        logIn = (TextView) findViewById(R.id.link_login);
+        pass1 = (EditText)findViewById(R.id.input_password);
+        pass2 = (EditText)findViewById(R.id.input_password2);
+        name = (EditText)findViewById(R.id.input_name);
+        email = (EditText)findViewById(R.id.input_email);
+        mentor = (Switch)findViewById(R.id.switch_mentor);
+        signUp = (Button)findViewById(R.id.btn_signup);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser()!=null){
+                    Intent myIntent = new Intent(SignUp.this,
+                            MainActivity.class);
+                    startActivity(myIntent);
+                }
+            }
+        };
 
         logIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -47,42 +62,38 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-    public void onSignUpClick(View v) {
-        //getting strings from sign up
-        String usernameStr = username.getText().toString();
-        String pass1Str = pass1.getText().toString();
-        String pass2Str = pass2.getText().toString();
+    @Override
+    protected void onStart(){
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    public void onSignUpClick(View view) {
+
         String nameStr = name.getText().toString();
+        String passStr = pass1.getText().toString();
+        String passStr2 = pass2.getText().toString();
         String emailStr = email.getText().toString();
 
-        if (!pass1Str.equals(pass2Str)) {
-
-            //let user know passwords don't match
-            Toast passProb = Toast.makeText(SignUp.this, "pass1str ==" + pass1Str + " pass2str ==" + pass2Str, Toast.LENGTH_SHORT);
-            passProb.show();
-       // } else if (!isValidEmailAddress(pass1Str)) {
-       //     Toast emailProb = Toast.makeText(SignUp.this, emailStr + " is not a valid email :(", Toast.LENGTH_SHORT);
-       //     emailProb.show();
-        }
-        else if(!helper.searchUnames(usernameStr)){
-            Toast userProb = Toast.makeText(SignUp.this, usernameStr + " has already been used", Toast.LENGTH_SHORT);
-            userProb.show();
-        }
-        else {
-            //make new contact
-            Contact contact = new Contact();
-            contact.setEmail(emailStr);
-            contact.setName(nameStr);
-            contact.setPass(pass1Str);
-            contact.setUname(usernameStr);
-            if (mentor.isChecked()) {
-                contact.setAMentor(1);
-            } else {
-                contact.setAMentor(0);
-            }
-            Toast signedUp = Toast.makeText(SignUp.this, "You have signed up! Woot woot!", Toast.LENGTH_SHORT);
-            signedUp.show();
-            helper.insertContact(contact);
+        if (nameStr.isEmpty() || name.length() < 3) {
+            Toast.makeText(this, "Name must be more than 3 letters.", Toast.LENGTH_SHORT).show();
+        } else if(emailStr.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
+            Toast.makeText(this, "Enter a valid email address.", Toast.LENGTH_SHORT).show();
+        } else if (passStr.isEmpty() || passStr.length() < 6 || passStr.length() > 20) {
+            Toast.makeText(this, "Please use between 6 and 25 alphanumeric characters in the password.", Toast.LENGTH_SHORT).show();
+        } else if(!passStr.equals(passStr2)){
+            Toast.makeText(this, "Passwords don't match!", Toast.LENGTH_SHORT).show();
+        }else{
+            mAuth.createUserWithEmailAndPassword(emailStr, passStr);
+            Toast.makeText(this, "Your account has been created!", Toast.LENGTH_SHORT).show();
         }
     }
 
