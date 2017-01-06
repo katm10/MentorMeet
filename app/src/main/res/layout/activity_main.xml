@@ -14,16 +14,15 @@
             android:id="@+id/layout_to_hide_when_asking_starting_questions"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:visibility="gone">
+            android:layout_height="fill_parent">
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/feedButton"
                 android:background="#a3f2f2"
-                android:text=" Your Feed"
-                android:textSize="50dp"
+                android:text="@string/your_feed"
+                android:textSize="50sp"
                 android:typeface="normal"
                 android:textAllCaps="false"
                 android:textAlignment="textStart"
@@ -35,8 +34,8 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/mapButton"
                 android:background="#a6efa9"
-                android:text=" Events"
-                android:textSize="50dp"
+                android:text="@string/events"
+                android:textSize="50sp"
                 android:typeface="normal"
                 android:textAllCaps="false"
                 android:textAlignment="textStart"
@@ -47,8 +46,8 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/mentorButton"
                 android:background="#a479c7"
-                android:text=" Mentor Page"
-                android:textSize="50dp"
+                android:text="@string/mentor_page"
+                android:textSize="50sp"
                 android:typeface="normal"
                 android:textAllCaps="false"
                 android:textAlignment="textStart"
@@ -59,8 +58,8 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/profileButton"
                 android:background="#f581b9"
-                android:text=" Your Profile"
-                android:textSize="50dp"
+                android:text="@string/your_profile"
+                android:textSize="50sp"
                 android:typeface="normal"
                 android:textAllCaps="false"
                 android:textAlignment="textStart"
@@ -74,13 +73,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1"
-        android:id="@+id/linearLayout">
+        android:id="@+id/questionLayout"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="It seems like this is your first time using Mentor Meet. Welcome! Please answer the following questions."
+            android:text="@string/it_seems_like_this_is_your_first_time_using_mentor_meet_welcome_please_answer_the_following_questions"
             android:id="@+id/welcomeQuestionsTextView"
             android:textAlignment="center"
             android:textColor="@color/grey" />
@@ -90,28 +90,40 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/editText"
-            android:hint="First and Last Name" />
+            android:id="@+id/first_and_last_input"
+            android:hint="@string/first_and_last_name" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/zipcode_edittext"
             android:layout_gravity="center_horizontal"
-            android:hint="Zipcode" />
+            android:hint="@string/zipcode" />
 
-        <Switch
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Are you a mentor? Please click this if you are."
-            android:id="@+id/switch_mentor"
-            android:checked="false"
-            android:textColor="@color/grey" />
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/are_you_a_mentor"
+                android:id="@+id/are_you_a_mentor" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/switch_mentor"
+                android:checked="false"
+                android:textColor="@color/grey" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please choose *5* interests."
+            android:text="@string/please_choose_5_interests"
             android:id="@+id/interestTextView"
             android:textColor="@color/grey"
             android:paddingTop="15dp"
@@ -119,7 +131,7 @@
 
         <ExpandableListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:id="@+id/expandableListViewInterests"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1.37" />
@@ -129,14 +141,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done!"
+        android:text="@string/done"
         android:id="@+id/btn_confirm_questions"
         android:layout_gravity="center_horizontal"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
         android:background="@color/colorLightPrimary"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

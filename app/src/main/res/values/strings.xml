@@ -29,4 +29,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="click_here_to_sign_in_if_you_already_have_an_account">Click here to sign in if you already have an account.</string>
     <string name="toggle_this_if_you_are_a_mentor">Toggle this if you are a mentor.</string>
+    <string name="your_feed">Your Feed</string>
+    <string name="events">Events</string>
+    <string name="mentor_page">Mentor Page</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="it_seems_like_this_is_your_first_time_using_mentor_meet_welcome_please_answer_the_following_questions">It seems like this is your first time using Mentor Meet. Welcome! Please answer the following questions.</string>
+    <string name="first_and_last_name">First and Last Name</string>
+    <string name="please_choose_5_interests">Please choose *5* interests.</string>
+    <string name="done">Done!</string>
+    <string name="zipcode">Zipcode</string>
 </resources>
