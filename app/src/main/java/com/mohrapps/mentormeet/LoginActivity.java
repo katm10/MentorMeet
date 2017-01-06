@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     public EditText pass;
     public String emailStr;
     public String passStr;
-    public Button goToDb;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     @Override
@@ -65,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
 
     }
 

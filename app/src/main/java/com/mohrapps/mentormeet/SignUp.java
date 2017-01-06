@@ -7,42 +7,43 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUp extends AppCompatActivity {
 
     private TextView logIn;
     private EditText pass1;
-   private EditText pass2;
-    private EditText name;
+    private EditText pass2;
     private EditText email;
-    private Switch mentor;
     private Button signUp;
     protected FirebaseAuth mAuth;
     protected FirebaseAuth.AuthStateListener mAuthListener;
+    Firebase mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
 
+        mRef = new Firebase("https://mentor-meet.firebaseio.com/Users");
         mAuth = FirebaseAuth.getInstance();
         logIn = (TextView) findViewById(R.id.link_login);
-        pass1 = (EditText)findViewById(R.id.input_password);
-        pass2 = (EditText)findViewById(R.id.input_password2);
-        name = (EditText)findViewById(R.id.input_name);
-        email = (EditText)findViewById(R.id.input_email);
-        mentor = (Switch)findViewById(R.id.switch_mentor);
-        signUp = (Button)findViewById(R.id.btn_signup);
+        pass1 = (EditText) findViewById(R.id.input_password);
+        pass2 = (EditText) findViewById(R.id.input_password2);
+        email = (EditText) findViewById(R.id.input_email);
+        signUp = (Button) findViewById(R.id.btn_signup);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser()!=null){
+                if (firebaseAuth.getCurrentUser() != null) {
                     Intent myIntent = new Intent(SignUp.this,
                             MainActivity.class);
                     startActivity(myIntent);
@@ -63,7 +64,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
@@ -78,23 +79,31 @@ public class SignUp extends AppCompatActivity {
 
     public void onSignUpClick(View view) {
 
-        String nameStr = name.getText().toString();
         String passStr = pass1.getText().toString();
         String passStr2 = pass2.getText().toString();
         String emailStr = email.getText().toString();
 
-        if (nameStr.isEmpty() || name.length() < 3) {
-            Toast.makeText(this, "Name must be more than 3 letters.", Toast.LENGTH_SHORT).show();
-        } else if(emailStr.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
+        if (emailStr.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
             Toast.makeText(this, "Enter a valid email address.", Toast.LENGTH_SHORT).show();
         } else if (passStr.isEmpty() || passStr.length() < 6 || passStr.length() > 20) {
             Toast.makeText(this, "Please use between 6 and 25 alphanumeric characters in the password.", Toast.LENGTH_SHORT).show();
-        } else if(!passStr.equals(passStr2)){
+        } else if (!passStr.equals(passStr2)) {
             Toast.makeText(this, "Passwords don't match!", Toast.LENGTH_SHORT).show();
-        }else{
-            mAuth.createUserWithEmailAndPassword(emailStr, passStr);
-            Toast.makeText(this, "Your account has been created!", Toast.LENGTH_SHORT).show();
-        }
-    }
+        } else {
+            mAuth.createUserWithEmailAndPassword(emailStr, passStr).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(SignUp.this, "An error occurred", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUp.this, "Please wait...", Toast.LENGTH_SHORT).show();
+                        //createNewUser(task.getResult().getUser());
+                    }
+                  //  hideProgressDialog();
+                }
 
+            });
+        }
+
+    }
 }
