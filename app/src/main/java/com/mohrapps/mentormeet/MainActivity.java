@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     Firebase mRef;
 
     List<String> genAreas = new ArrayList<String>();
-    //TODO: fix below issue
     HashMap<String, List<String>> specificAreas = new HashMap<>();
     ExpandableListAdapter listAdapter;
     ExpandableListView expandableListView;
@@ -44,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         fillData();
-        expandableListView = (ExpandableListView)findViewById(R.id.expandableListViewInterests);
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListViewInterests);
         listAdapter = new MyExpandableListAdapter(this, genAreas, specificAreas);
         expandableListView.setAdapter(listAdapter);
 
-        feedbtn = (Button)findViewById(R.id.feedButton);
-        eventsbtn = (Button)findViewById(R.id.mapButton);
-        mentorbtn = (Button)findViewById(R.id.mentorButton);
-        profilebtn = (Button)findViewById(R.id.profileButton);
+        feedbtn = (Button) findViewById(R.id.feedButton);
+        eventsbtn = (Button) findViewById(R.id.mapButton);
+        mentorbtn = (Button) findViewById(R.id.mentorButton);
+        profilebtn = (Button) findViewById(R.id.profileButton);
 
         feedbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,32 +85,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        if(mUser.getDisplayName()==null){
+        if (mUser.getDisplayName() == null) {
 
         }
     }
 
-    public void fillData(){
+    public void fillData() {
         String[] areasArr = {"Languages", "Sports", "Arts", "Outdoors", "Branches of CS", "Music", "Relaxing Things"};
         String[] langs = {"Java", "JavaScript", "HTML/CSS", "Python", "Ruby", "Ruby on Rails", "C++", "C#", "SQL", "Go", "PHP", "Swift"};
         String[] sports = {"Soccer", "Field Hockey", "Tennis", "American Football", "Basketball", "Golf", "Baseball/Softball", "Volleyball",
                 "Table Tennis", "Golf", "Lacrosse", "Cricket", "Swimming", "Water Polo", "Badminton", "Track", "Cross Country", "Gymnastics",
                 "Ice Skating", "Ice Hockey", "Martial Arts"};
-        String [] arts = {"Drawing", "Painting", "Singing", "Dancing", "Sewing", "Knitting", "Acting", "Ceramics", "Photography"};
+        String[] arts = {"Drawing", "Painting", "Singing", "Dancing", "Sewing", "Knitting", "Acting", "Ceramics", "Photography"};
         String[] outdoors = {"Hiking", "Rock Climbing", "Dogs", "Cats", "Horses", "Hunting", "Archery", "Biking"};
         String[] branchesCS = {"Medicine", "Machine Learning/AI", "Education", "Social Impact", "Environment", "Games", "Food"};
         String[] music = {"Pop", "Hip Hop", "EDM/Dance", "Country", "Rock", "Classical", "RnB", "Indie", "Soul", "Folk", "Jazz",
-                        "Alternative", "Metal", "K-Pop", "J-Pop", "Reggae", "Blues"};
+                "Alternative", "Metal", "K-Pop", "J-Pop", "Reggae", "Blues"};
         String[] relax = {"Working Out", "Meditation", "Yoga", "Watching TV", "Watching YouTube", "Cooking", "Baking"};
-        String[][] arrays = {langs, sports, arts,outdoors,branchesCS,music,relax };
+        String[][] arrays = {langs, sports, arts, outdoors, branchesCS, music, relax};
 
-        for(String area : areasArr){
+        for (String area : areasArr) {
             genAreas.add(area);
         }
         int count = 0;
-        for (String[] array : arrays){
+        for (String[] array : arrays) {
             specificAreas.put(genAreas.get(count), Arrays.asList(array));
-            count+= 1;
+            count += 1;
         }
     }
 }

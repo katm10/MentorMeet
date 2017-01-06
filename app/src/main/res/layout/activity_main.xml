@@ -111,11 +111,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Please choose *5* interests."
             android:id="@+id/interestTextView"
             android:textColor="@color/grey"
-            android:paddingTop="15dp" />
+            android:paddingTop="15dp"
+            android:textStyle="bold|italic" />
 
         <ExpandableListView
             android:layout_width="match_parent"
