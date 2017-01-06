@@ -14,7 +14,8 @@
             android:id="@+id/layout_to_hide_when_asking_starting_questions"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:visibility="visible">
 
             <Button
                 android:layout_width="match_parent"
@@ -128,6 +129,13 @@
             android:textColor="@color/grey"
             android:paddingTop="15dp"
             android:textStyle="bold|italic" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/selectedInterestsTextView"
+            android:text="You haven&apos;t selected any interests yet." />
 
         <ExpandableListView
             android:layout_width="match_parent"

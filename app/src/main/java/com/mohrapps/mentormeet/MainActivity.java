@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -38,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout qLayout;
     LinearLayout homeLayout;
 
+    List<String> selectedInterests = new ArrayList<String>();
     List<String> genAreas = new ArrayList<String>();
     HashMap<String, List<String>> specificAreas = new HashMap<>();
-    ExpandableListAdapter listAdapter;
+    MyExpandableListAdapter listAdapter;
     ExpandableListView expandableListView;
 
     @Override
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         //fill and display expandable lists of interests
         fillData();
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListViewInterests);
-        listAdapter = new MyExpandableListAdapter(this, genAreas, specificAreas);
+        TextView textView = (TextView)findViewById(R.id.selectedInterestsTextView);
+        listAdapter = new MyExpandableListAdapter(this, genAreas, specificAreas, textView);
         expandableListView.setAdapter(listAdapter);
         //show questions if user doesn't have a display name
         if(mUser.getDisplayName()==null){
@@ -153,13 +155,18 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             String name = firstAndLastName.getText().toString();
             String zipcodeStr = zipcode.getText().toString();
+            selectedInterests = listAdapter.getSelectedInterests();
             if(name.length() < 3){
                 Toast.makeText(MainActivity.this, "Name should be more than 3 characters", Toast.LENGTH_SHORT).show();
             }else if(Pattern.matches("[a-zA-Z]+", zipcodeStr) && zipcodeStr.length()!=5){
                 Toast.makeText(MainActivity.this, "Zipcode should be 5 digits", Toast.LENGTH_SHORT).show();
-            }else if(/*TODO:figure out how to tell how many checks there are*/ true){
-
+            }else if(selectedInterests.size()!=5){
+                Toast.makeText(MainActivity.this, "Please select 5 interests.", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(MainActivity.this, "Everything is good", Toast.LENGTH_SHORT).show();
             }
         }
     };
+
+
 }
