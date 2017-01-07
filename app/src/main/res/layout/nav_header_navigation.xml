@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+    android:background="@color/colorLightPrimary"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/logo512512"
+        android:foreground="#59ffffff"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image_nav"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/button_transparent"
+        app:border_color="#FF000000"
+        android:layout_marginLeft="24dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comp. Sci. Tutorials"
+        android:textSize="14sp"
+        android:textColor="@color/grey"
+        android:textStyle="bold"
+        android:gravity="left"
+        android:paddingBottom="4dp"
+        android:id="@+id/usernameNavDrawer"
+        android:layout_above="@+id/emailNavDrawer"
+        android:layout_alignLeft="@+id/profile_image_nav"
+        android:layout_alignStart="@+id/profile_image_nav" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="user@host.com"
+        android:id="@+id/emailNavDrawer"
+        android:gravity="left"
+        android:layout_marginBottom="8dp"
+        android:textSize="14sp"
+        android:textColor="@color/grey"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/usernameNavDrawer"
+        android:layout_alignStart="@+id/usernameNavDrawer" />
+
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/search_or_accept_mentor"
+            android:icon="@drawable/chat_bubble"
+            android:title="Mentor" />
+        <item
+            android:id="@+id/maps"
+            android:icon="@drawable/map_and_magnifying_glass"
+            android:title="Maps" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Profile and Settings" />
+    </group>
+
+</menu>

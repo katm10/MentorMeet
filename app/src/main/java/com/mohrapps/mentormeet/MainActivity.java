@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
         feedbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, feed.class);
+                Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
                 startActivity(intent);
             }
         });
 //TODO: create map activity and chat activity
-        eventsbtn.setOnClickListener(new View.OnClickListener() {
+        /*eventsbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, feed.class);
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+*/
         profilebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

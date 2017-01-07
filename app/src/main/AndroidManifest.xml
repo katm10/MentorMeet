@@ -31,9 +31,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUp" />
-        <activity android:name=".feed" />
         <activity android:name=".profilePage" />
-        <activity android:name=".questionActivity"></activity>
+        <activity android:name=".questionActivity" />
+        <activity
+            android:name=".NavigationActivity"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
