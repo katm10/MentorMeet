@@ -15,12 +15,15 @@ import android.widget.ToggleButton;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Pattern;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -155,15 +158,27 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             String name = firstAndLastName.getText().toString();
             String zipcodeStr = zipcode.getText().toString();
+            boolean isAMentor = mentorToggle.isActivated();
             selectedInterests = listAdapter.getSelectedInterests();
             if(name.length() < 3){
                 Toast.makeText(MainActivity.this, "Name should be more than 3 characters", Toast.LENGTH_SHORT).show();
-            }else if(Pattern.matches("[a-zA-Z]+", zipcodeStr) && zipcodeStr.length()!=5){
+            }else if(NumberUtils.isNumber(zipcodeStr) && zipcodeStr.length()!=5){
                 Toast.makeText(MainActivity.this, "Zipcode should be 5 digits", Toast.LENGTH_SHORT).show();
             }else if(selectedInterests.size()!=5){
                 Toast.makeText(MainActivity.this, "Please select 5 interests.", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(MainActivity.this, "Everything is good", Toast.LENGTH_SHORT).show();
+                //String name, String zip, boolean isAMentor, List<String> interests, boolean hasAPartner, String randomKey
+                MyUserInfo userInfo = new MyUserInfo(name, zipcodeStr, isAMentor, selectedInterests, false);
+                mRef.child(mUser.getEmail().replaceAll("[^A-Za-z0-9]", "")).setValue(userInfo);
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(name)
+                        .build();
+
+                mUser.updateProfile(profileUpdates);
+                //changing back to regular layout
+                homeLayout.setVisibility(View.VISIBLE);
+                qLayout.setVisibility(View.GONE);
+                doneWithQs.setVisibility(View.GONE);
             }
         }
     };

@@ -20,19 +20,6 @@
             android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal" />
 
-        <!--  Name Label -->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:hint="Name" />
-        </android.support.design.widget.TextInputLayout>
-
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -67,15 +54,6 @@
             android:inputType="textPassword"
             android:hint="Retype Password"
             android:layout_gravity="center_horizontal" />
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please toggle this if you are a mentor.      "
-            android:id="@+id/switch_mentor"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/grey"
-            />
 
         <Button
             android:id="@+id/btn_signup"
