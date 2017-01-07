@@ -10,10 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,6 +27,7 @@ public class profilePage extends AppCompatActivity {
     private LinearLayout visibilityChange;
     private Button confirmDelete;
     private Button cancelDelete;
+    private Firebase mUserRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class profilePage extends AppCompatActivity {
         if (FirebaseAuth.getInstance() != null) {
             mAuth = FirebaseAuth.getInstance();
             mUser = mAuth.getCurrentUser();
+            mUserRef = new Firebase("https://mentor-meet.firebaseio.com/Users/" + mUser.getEmail().replaceAll("[^A-Za-z0-9]", ""));
         }
         welcomeUser = (TextView) findViewById(R.id.welcomeUserText);
         welcomeUser.setText("Welcome, " + mUser.getDisplayName());
@@ -49,26 +50,16 @@ public class profilePage extends AppCompatActivity {
         confirmDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AuthCredential credential = EmailAuthProvider
-                        .getCredential("user@example.com", "password1234");
 
-// Prompt the user to re-provide their sign-in credentials
-                mUser.reauthenticate(credential)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(profilePage.this, "Authenitcated", Toast.LENGTH_SHORT);
-                            }
-                        });
                 mUser.delete()
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(profilePage.this, "If you haven't signed in recently, please sign out and in for safety reasons.", Toast.LENGTH_SHORT).show();
                                 if (task.isSuccessful()) {
                                     startActivity(new Intent(profilePage.this, SignUp.class));
+                                    mUserRef.setValue(null);
                                 }
-
-
                             }
                         });
             }

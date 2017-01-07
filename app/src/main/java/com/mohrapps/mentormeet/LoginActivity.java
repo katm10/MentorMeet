@@ -48,9 +48,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()!=null){
-                    Intent myIntent = new Intent(LoginActivity.this,
-                            MainActivity.class);
-                    startActivity(myIntent);
+                    if(firebaseAuth.getCurrentUser().getDisplayName()!=null) {
+                        //TODO: separate mentor/mentee pages
+                        //if they have display name, go to appropriate mentor or mentor page
+                        Intent myIntent = new Intent(LoginActivity.this,
+                                MainActivity.class);
+                        startActivity(myIntent);
+                    }else{
+                        //if no display name, go to questionnaire
+                        startActivity(new Intent(LoginActivity.this, questionActivity.class));
+                    }
                 }
             }
         };
