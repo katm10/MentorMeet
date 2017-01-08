@@ -112,12 +112,18 @@ public class questionActivity extends AppCompatActivity {
             }else{
                 //String name, String zip, boolean isAMentor, List<String> interests, boolean hasAPartner, String randomKey
                 MyUserInfo userInfo = new MyUserInfo(name, zipcodeStr, isAMentor, selectedInterests, false);
-                mRef.child(mUser.getEmail().replaceAll("[^A-Za-z0-9]", "")).setValue(userInfo);
+                try {
+                    mRef.child(mUser.getEmail().replaceAll("[^A-Za-z0-9]", "")).setValue(userInfo);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(name)
                         .build();
 
                 mUser.updateProfile(profileUpdates);
+
                // TODO:mentor and mentee should have diff layouts
                 startActivity(new Intent(questionActivity.this, MainActivity.class));
             }

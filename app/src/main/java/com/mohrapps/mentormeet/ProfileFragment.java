@@ -69,19 +69,27 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+       
+        myView = inflater.inflate(R.layout.activity_profile_page, container, false);
         if (FirebaseAuth.getInstance() != null) {
             mAuth = FirebaseAuth.getInstance();
             mUser = mAuth.getCurrentUser();
             mUserRef = new Firebase("https://mentor-meet.firebaseio.com/Users/" + mUser.getEmail().replaceAll("[^A-Za-z0-9]", ""));
         }
-        welcomeUser = (TextView) getView().findViewById(R.id.welcomeUserText);
+        welcomeUser = (TextView) myView.findViewById(R.id.welcomeUserText);
         welcomeUser.setText("Welcome, " + mUser.getDisplayName());
-        signOut = (Button) getView().findViewById(R.id.btn_signout);
+        signOut = (Button) myView.findViewById(R.id.btn_signout);
         //makes the screen change when they try to delete account
-        confirmDelete = (Button) getView().findViewById(R.id.btn_confirm_delete);
-        cancelDelete = (Button) getView().findViewById(R.id.btn_cancel_delete);
-        foregroundChange = (LinearLayout) getView().findViewById(R.id.layout_to_change_foreground);
-        visibilityChange = (LinearLayout) getView().findViewById(R.id.layout_to_make_appear);
+        confirmDelete = (Button) myView.findViewById(R.id.btn_confirm_delete);
+        cancelDelete = (Button) myView.findViewById(R.id.btn_cancel_delete);
+        foregroundChange = (LinearLayout) myView.findViewById(R.id.layout_to_change_foreground);
+        visibilityChange = (LinearLayout) myView.findViewById(R.id.layout_to_make_appear);
         confirmDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,9 +118,9 @@ public class ProfileFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        welcomeUser = (TextView) getView().findViewById(R.id.welcomeUserText);
+        welcomeUser = (TextView) myView.findViewById(R.id.welcomeUserText);
         welcomeUser.setText("Welcome, " + mUser.getDisplayName());
-        signOut = (Button) getView().findViewById(R.id.btn_signout);
+        signOut = (Button) myView.findViewById(R.id.btn_signout);
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +128,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
-        deleteButton = (Button) getView().findViewById(R.id.btn_delete);
+        deleteButton = (Button) myView.findViewById(R.id.btn_delete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,14 +138,7 @@ public class ProfileFragment extends Fragment {
         });
 
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
-        return textView;
+        return myView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

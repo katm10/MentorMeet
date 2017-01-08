@@ -1,5 +1,6 @@
 package com.mohrapps.mentormeet;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,19 +10,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class NavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MenteeFragment.OnFragmentInteractionListener, MentorFragment.OnFragmentInteractionListener, MapsFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener {
 
     NavigationView navigationView;
     Toolbar toolbar;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-    Firebase mRef;
+    Firebase mUserRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +31,12 @@ public class NavigationActivity extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        mRef = new Firebase("https://mentor-meet.firebaseio.com/Users");
+        mUserRef = new Firebase("https://mentor-meet.firebaseio.com/Users/"+mUser.getEmail().replaceAll("[^A-Za-z0-9]", ""));
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        TextView email = (TextView)findViewById(R.id.emailNavDrawer);
+        TextView name = (TextView)findViewById(R.id.usernameNavDrawer);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,5 +102,10 @@ public class NavigationActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

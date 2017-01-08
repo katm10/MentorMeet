@@ -16,7 +16,7 @@
         android:id="@+id/profile_image_nav"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/button_transparent"
+        android:src="@drawable/anon_person"
         app:border_color="#FF000000"
         android:layout_marginLeft="24dp"
         android:layout_centerVertical="true"
