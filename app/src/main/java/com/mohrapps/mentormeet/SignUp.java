@@ -48,7 +48,7 @@ public class SignUp extends AppCompatActivity {
                         //TODO: separate mentor/mentee pages
                         //if they have display name, go to appropriate mentor or mentor page
                         Intent myIntent = new Intent(SignUp.this,
-                                MainActivity.class);
+                                NavigationActivity.class);
                         startActivity(myIntent);
                     }else{
                         //if no display name, go to questionnaire

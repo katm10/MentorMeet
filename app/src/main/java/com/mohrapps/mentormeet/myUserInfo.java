@@ -1,10 +1,14 @@
 package com.mohrapps.mentormeet;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.List;
 
 /**
  * Created by Katherine on 1/6/2017.
  */
+@IgnoreExtraProperties
+
 public class MyUserInfo {
     public String name;
     public String zip;
@@ -12,21 +16,36 @@ public class MyUserInfo {
     public List<String> interests;
     public  boolean hasAPartner;
 
-    public MyUserInfo(String name, String zip, boolean mentorStat, List<String> interests, boolean hasAPartner){
+    @Override
+    public String toString() {
+        return "MyUserInfo{" +
+                "name='" + name + '\'' +
+                ", zip='" + zip + '\'' +
+                ", mentorStat=" + mentorStat +
+                ", interests=" + interests +
+                ", hasAPartner=" + hasAPartner +
+                '}';
+    }
+
+    public MyUserInfo() {
+    }
+
+    public MyUserInfo(String name, boolean hasAPartner, List<String> interests, boolean mentorStat, String zip) {
         this.name = name;
-        this.zip = zip;
-        this.mentorStat = mentorStat;
-        this.interests = interests;
         this.hasAPartner = hasAPartner;
+        this.interests = interests;
+        this.mentorStat = mentorStat;
+        this.zip = zip;
+    }
+
+    public boolean isMentorStat() {
+        return mentorStat;
     }
 
     public void setMentorStat(boolean mentorStat) {
         this.mentorStat = mentorStat;
     }
 
-    public boolean getMentorStat(){
-        return mentorStat;
-    }
     public String getName() {
         return name;
     }
@@ -51,12 +70,11 @@ public class MyUserInfo {
         this.interests = interests;
     }
 
-    public void setHasAPartner(boolean hasAPartner) {
-        this.hasAPartner = hasAPartner;
-    }
-
-    public boolean hasAPartner() {
+    public boolean isHasAPartner() {
         return hasAPartner;
     }
 
+    public void setHasAPartner(boolean hasAPartner) {
+        this.hasAPartner = hasAPartner;
+    }
 }

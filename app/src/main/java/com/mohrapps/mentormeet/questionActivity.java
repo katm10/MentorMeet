@@ -1,8 +1,8 @@
 package com.mohrapps.mentormeet;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,13 +33,12 @@ public class questionActivity extends AppCompatActivity {
     EditText zipcode;
     ToggleButton mentorToggle;
     LinearLayout qLayout;
-    LinearLayout homeLayout;
-
     List<String> selectedInterests = new ArrayList<String>();
     List<String> genAreas = new ArrayList<String>();
     HashMap<String, List<String>> specificAreas = new HashMap<>();
     MyExpandableListAdapter listAdapter;
     ExpandableListView expandableListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +50,11 @@ public class questionActivity extends AppCompatActivity {
         mRef = new Firebase("https://mentor-meet.firebaseio.com/Users");
 
         //all for the question page
-        doneWithQs = (Button)findViewById(R.id.btn_confirm_questions);
-        firstAndLastName = (EditText)findViewById(R.id.first_and_last_input);
-        zipcode = (EditText)findViewById(R.id.zipcode_edittext);
-        mentorToggle = (ToggleButton)findViewById(R.id.switch_mentor);
-        qLayout = (LinearLayout)findViewById(R.id.questionLayout);
-        homeLayout = (LinearLayout)findViewById(R.id.layout_to_hide_when_asking_starting_questions);
+        doneWithQs = (Button) findViewById(R.id.btn_confirm_questions);
+        firstAndLastName = (EditText) findViewById(R.id.first_and_last_input);
+        zipcode = (EditText) findViewById(R.id.zipcode_edittext);
+        mentorToggle = (ToggleButton) findViewById(R.id.switch_mentor);
+        qLayout = (LinearLayout) findViewById(R.id.questionLayout);
         //make the toggle go yes/no not on/off
         mentorToggle.setText("No");
         mentorToggle.setTextOn("Yes");
@@ -64,7 +62,7 @@ public class questionActivity extends AppCompatActivity {
         //fill and display expandable lists of interests
         fillData();
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListViewInterests);
-        TextView textView = (TextView)findViewById(R.id.selectedInterestsTextView);
+        TextView textView = (TextView) findViewById(R.id.selectedInterestsTextView);
         listAdapter = new MyExpandableListAdapter(this, genAreas, specificAreas, textView);
         expandableListView.setAdapter(listAdapter);
 
@@ -99,19 +97,25 @@ public class questionActivity extends AppCompatActivity {
     public View.OnClickListener OnDoneWithQs = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            boolean isAMentor;
             String name = firstAndLastName.getText().toString();
             String zipcodeStr = zipcode.getText().toString();
-            boolean isAMentor = mentorToggle.isActivated();
+            CharSequence mentorStr = mentorToggle.getText();
+            if (mentorStr=="Yes") {
+                isAMentor = true;
+            } else {
+                isAMentor = false;
+            }
             selectedInterests = listAdapter.getSelectedInterests();
-            if(name.length() < 3){
+            if (name.length() < 3) {
                 Toast.makeText(questionActivity.this, "Name should be more than 3 characters", Toast.LENGTH_SHORT).show();
-            }else if(NumberUtils.isNumber(zipcodeStr) && zipcodeStr.length()!=5){
+            } else if (NumberUtils.isNumber(zipcodeStr) && zipcodeStr.length() != 5) {
                 Toast.makeText(questionActivity.this, "Zipcode should be 5 digits", Toast.LENGTH_SHORT).show();
-            }else if(selectedInterests.size()!=5){
+            } else if (selectedInterests.size() != 5) {
                 Toast.makeText(questionActivity.this, "Please select 5 interests.", Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 //String name, String zip, boolean isAMentor, List<String> interests, boolean hasAPartner, String randomKey
-                MyUserInfo userInfo = new MyUserInfo(name, zipcodeStr, isAMentor, selectedInterests, false);
+                MyUserInfo userInfo = new MyUserInfo(name, false, selectedInterests, isAMentor, zipcodeStr);
                 try {
                     mRef.child(mUser.getEmail().replaceAll("[^A-Za-z0-9]", "")).setValue(userInfo);
 
@@ -124,8 +128,7 @@ public class questionActivity extends AppCompatActivity {
 
                 mUser.updateProfile(profileUpdates);
 
-               // TODO:mentor and mentee should have diff layouts
-                startActivity(new Intent(questionActivity.this, MainActivity.class));
+                startActivity(new Intent(questionActivity.this, NavigationActivity.class));
             }
         }
     };

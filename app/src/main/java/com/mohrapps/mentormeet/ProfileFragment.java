@@ -75,7 +75,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       
+
         myView = inflater.inflate(R.layout.activity_profile_page, container, false);
         if (FirebaseAuth.getInstance() != null) {
             mAuth = FirebaseAuth.getInstance();

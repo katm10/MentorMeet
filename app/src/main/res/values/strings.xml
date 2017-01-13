@@ -39,7 +39,10 @@
     <string name="done">Done!</string>
     <string name="zipcode">Zipcode</string>
     <string name="title_activity_navigation">NavigationActivity</string>
+    <string-array name="interests_search">
 
+    </string-array>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="zipcode_api_code">UVx2FNuKrJnwNIOaP9hJWflXebY5zVAuQ8xwV1gmLDTymHIbQ0UNggLurJA1Ebvv</string>
 </resources>
