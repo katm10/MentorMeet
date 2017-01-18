@@ -2,6 +2,8 @@ package com.mohrapps.mentormeet;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,17 +13,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +50,9 @@ import java.util.Scanner;
 public class MentorFragment extends Fragment {
 
     private View myView;
-
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
+    Firebase mRef;
     EditText zipcodeEdit;
     EditText milesFromEdit;
     ArrayList<String> selectedInterests = new ArrayList<>();
@@ -42,7 +60,9 @@ public class MentorFragment extends Fragment {
     ArrayAdapter adapter;
     ListView interestsListView;
     TextView interestsText;
+    TextView interestsText2;
     EditText search_edittext;
+    Button searchButton;
     private ArrayList<String> array_sort = new ArrayList<String>();
     int textlength = 0;
     String[] interestsArray = {
@@ -161,6 +181,9 @@ public class MentorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        mRef = new Firebase("https://mentor-meet.firebaseio.com/Users");
 
         try {
             mListener = (OnFragmentInteractionListener) getActivity();
@@ -177,11 +200,13 @@ public class MentorFragment extends Fragment {
         interestsListView = (ListView) myView.findViewById(R.id.listView_search_interests);
         search_edittext = (EditText) myView.findViewById(R.id.search_for_interests_edit);
         interestsText = (TextView) myView.findViewById(R.id.searchDisplayTextView);
+        interestsText2 = (TextView) myView.findViewById(R.id.searchDisplayTextView2);
         search_edittext.addTextChangedListener(textWatcher);
         milesFromEdit = (EditText) myView.findViewById(R.id.number_of_miles);
         zipcodeEdit = (EditText) myView.findViewById(R.id.zipcode_edittext_search);
-        double temp = getDistance(94066, 54002);
-        Toast.makeText(getContext(), String.valueOf(temp), Toast.LENGTH_SHORT).show();
+        zipcodeEdit.addTextChangedListener(zipcodeWatch);
+        searchButton = (Button)myView.findViewById(R.id.search_btn);
+        searchButton.setOnClickListener(onSearchButtonClicked);
         return myView;
 
     }
@@ -209,6 +234,26 @@ public class MentorFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    TextWatcher zipcodeWatch = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if(zipcodeEdit.getText() != null) {
+                String displayText = milesFromEdit.getText().toString() + " miles from " + zipcodeEdit.getText().toString();
+                interestsText2.setText(displayText);
+            }
+        }
+    };
 
     TextWatcher textWatcher = new TextWatcher() {
 
@@ -256,30 +301,89 @@ public class MentorFragment extends Fragment {
         }
     };
 
-    public double getDistance(int zip1, int zip2) {
-        String numberStr = new String();
+    public Double getDistance(int zip1, int zip2) {
         String url = "https://www.zipcodeapi.com/rest/" + getText(R.string.zipcode_api_code) + "/distance.json/" + zip1 + "/" + zip2 + "/miles";
-        String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
-        URLConnection connection = null;
+
+        HttpClient httpclient = new DefaultHttpClient();
+
+        // make GET request to the given URL
+        HttpResponse httpResponse = null;
         try {
-            connection = new URL(url).openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
+            httpResponse = httpclient.execute(new HttpGet(url));
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
-        connection.setRequestProperty("Accept-Charset", charset);
-        InputStream response = null;
+
+        // receive response as inputStream
+        InputStream inputStream = null;
         try {
-            response = new URL(url).openStream();
-        } catch (IOException e) {
-            e.printStackTrace();
+            inputStream = httpResponse.getEntity().getContent();
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
-        try (Scanner scanner = new Scanner(response)) {
-            String responseBody = scanner.useDelimiter("\\A").next();
-            // System.out.println(responseBody);
-            for (int i = 12; i < responseBody.length() - 1; i++) {
-                numberStr += responseBody.charAt(i);
+
+        Double result = 0.00;
+        // convert inputstream to string
+        if(inputStream != null)
+            try {
+                result = convertInputStreamToString(inputStream);
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
-            return Double.parseDouble(numberStr);
+
+    return result;
+}
+
+    // convert inputstream to String
+    private static Double convertInputStreamToString(InputStream inputStream) throws IOException{
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        Double finalNum = 0.00;
+        try {
+            JSONObject object = new JSONObject(result);
+            finalNum = object.getDouble("distance");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        return finalNum;
+
     }
+
+    // check network connection
+    public boolean isConnected(){
+        ConnectivityManager connMgr = (ConnectivityManager) getContext().getSystemService(getContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
+
+
+    public void updateListView(int zip, int maxNumOfMiles){
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot.child("interests").getChildren().iterator();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    public View.OnClickListener onSearchButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Double distance = getDistance(94010, 54128);
+            Toast.makeText(getContext(), distance.toString(), Toast.LENGTH_SHORT).show();
+        }
+    };
 }
